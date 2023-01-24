@@ -9,13 +9,22 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
+    //selectable temperature types
     var tempTypes = ["celsius", "farenheit", "kelvin"]
+    
+    //input temp type
     @State var inputTemp = "celsius"
+    
+    //output temp type
     @State var outputTemp = "celsius"
+    
+    //input temp value
     @State var inputValue: Double = 0.0
+    
+    //output temp value (computed property)
     var outputValue: Double {
         var preconvertedCelsiusVal: Double
-        
+        //converting all input to celsius
         if inputTemp == "celsius" {
            preconvertedCelsiusVal = Double(inputValue)
         }
@@ -26,6 +35,7 @@ struct ContentView: View {
             preconvertedCelsiusVal = Double(inputValue - 273.15)
         }
         
+        //converting input from celsius to desired type and returning
         if outputTemp == "celsius" {
             return preconvertedCelsiusVal
         }
@@ -45,24 +55,31 @@ struct ContentView: View {
             Form {
                 
                 VStack {
+                    //input temp type picker
                     Picker("input temp unit", selection: $inputTemp){
                         ForEach (tempTypes, id: \.self){
                             Text($0)
                         }
                     }
+                    
+                    //output temp type picker
                     Picker("output temp unit", selection: $outputTemp){
                         ForEach (tempTypes, id: \.self){
                             Text($0)
                         }
                     }
                 }
+                
+                //formatting output value to be to no dp
                 var outputValueString = String(format: "%.0f", outputValue)
+                
+                //HStack showing input and output
                 HStack {
                     TextField("Enter your value", value: $inputValue, format: .number)
                     Text("Your answer is \(outputValueString)")
                 }
                 
-            }.navigationTitle("Temperature Converter")
+            }.navigationTitle("Temperature Converter")//nav title
         }
     }
 }
